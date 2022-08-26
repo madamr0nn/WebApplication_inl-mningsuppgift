@@ -24,7 +24,7 @@ namespace WebApplication_inlämningsuppgift.Controllers
         public  IEnumerable<User> GetAllUsersAsync()
         {
                            
-                    return userServices.getuserasync();
+                    return userServices.GetUsersAsync();
                    //  return new OkObjectResult(await _productManager.GetAllProductsAsync());
                             
         }
@@ -43,7 +43,7 @@ namespace WebApplication_inlämningsuppgift.Controllers
         {
             try
             {
-                await userServices.createasync(user);
+                await userServices.CreateUserAsync(user);
                 return Ok();
             }
             catch (Exception)
@@ -64,7 +64,7 @@ namespace WebApplication_inlämningsuppgift.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            userServices.DeleteUser(id);
+            userServices.DeleteUserAsync(id);
 
         }
     }

@@ -6,36 +6,29 @@ namespace WebApplication_inlämningsuppgift.Services
 {   
     public interface IUserServices 
     {
-        Task createasync(User _users);
-        Task<bool> DeleteUser(int id);
-        IEnumerable<User> getuserasync();
+        Task CreateUserAsync(User _users);
+        Task<bool> DeleteUserAsync(int id);
+        IEnumerable<User> GetUsersAsync();
       
     }
 
     public class UsersServices : IUserServices
     {
         private readonly SqlContext context;
-        private object _SqlContext;
-
-        public UsersServices()
-        {
-        }
 
         public UsersServices(SqlContext _context)
         {
             context = _context;
         }
-
-        public Task createasync(User _users)
+        public async Task CreateUserAsync(User _users)
         {
-            context.Users.AddAsync(_users);
-            context.SaveChanges ();
-            return Task.CompletedTask;
+            await context.Users.AddAsync(_users);
+            await context.SaveChangesAsync ();
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
-            var user = await context.Users.FindAsync(id);
+            var user = context.Users.FirstOrDefault(i=>i. Id==id);
             if (user != null)
             {
                 context.Users.Remove(user);
@@ -44,13 +37,10 @@ namespace WebApplication_inlämningsuppgift.Services
             }
             return false;
         }    
-        public  IEnumerable<User> getuserasync()
+        public  IEnumerable<User> GetUsersAsync()
         {
-            var users  = new List<User>();
-            foreach (var customer in context.Users.ToList())
-                users.Add(customer);
                
-            return users;
+            return context.Users;
         }
 
        
